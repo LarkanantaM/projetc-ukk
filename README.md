@@ -32,7 +32,6 @@ Sistem Manajemen Penerimaan Mahasiswa berbasis web yang memudahkan siswa untuk m
 - 🗂️ SQLite
 
 ---
-
 ## 📁 Struktur Proyek
 
 project-pmb/
@@ -55,7 +54,9 @@ project-pmb/
 ├── run.py
 └── requirements.txt
 
----
+Salin
+Edit
+
 
 ## ⚙️ Instalasi
 
