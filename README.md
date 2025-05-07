@@ -31,31 +31,26 @@ Sistem Manajemen Penerimaan Mahasiswa berbasis web yang memudahkan siswa untuk m
 - 🎨 Bootstrap 5  
 - 🗂️ SQLite
 
----
-## 📁 Struktur Proyek
-
 project-pmb/
 ├── app/
-│ ├── init.py
-│ ├── auth/
-│ │ ├── init.py
-│ │ ├── forms.py
-│ │ └── routes.py
-│ ├── models/
-│ │ ├── init.py
-│ │ └── user.py
-│ ├── templates/
-│ │ ├── auth/
-│ │ │ ├── login.html
-│ │ │ └── register.html
-│ │ └── base.html
-│ └── static/
+│   ├── __init__.py
+│   ├── auth/
+│   │   ├── __init__.py
+│   │   ├── forms.py
+│   │   └── routes.py
+│   ├── models/
+│   │   ├── __init__.py
+│   │   └── user.py
+│   ├── templates/
+│   │   ├── auth/
+│   │   │   ├── login.html
+│   │   │   └── register.html
+│   │   └── base.html
+│   └── static/
 ├── config.py
 ├── run.py
 └── requirements.txt
 
-Salin
-Edit
 
 
 ## ⚙️ Instalasi
