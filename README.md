@@ -55,10 +55,6 @@ project-pmb/
 ├── run.py
 └── requirements.txt
 
-yaml
-Salin
-Edit
-
 ---
 
 ## ⚙️ Instalasi
