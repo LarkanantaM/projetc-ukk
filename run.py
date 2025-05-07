@@ -1,12 +1,17 @@
 from app import create_app, db
-from app.models import User
+from app.models import User, Registration
 
 app = create_app()
 
-# Optional: agar model dikenali saat flask shell
 @app.shell_context_processor
 def make_shell_context():
-    return {'db': db, 'User': User}
+    return {
+        'db': db, 
+        'User': User, 
+        'Registration': Registration
+    }
 
 if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
