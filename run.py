@@ -43,26 +43,13 @@ def init_db():
     except Exception as e:
         click.echo(f"Error initializing database: {str(e)}")
 
-@app.cli.command("reset-db")
-def reset_db():
-    """Reset the database."""
-    if click.confirm('Are you sure you want to reset the database?'):
-        with app.app_context():
-            db.drop_all()
-            db.create_all()
-            click.echo('Database has been reset.')
-
 if __name__ == "__main__":
     with app.app_context():
         try:
-            # Ensure database tables exist
             db.create_all()
-            
-            # Ensure upload directory exists
             uploads_dir = app.config['UPLOAD_FOLDER']
             if not os.path.exists(uploads_dir):
                 os.makedirs(uploads_dir)
-                
         except Exception as e:
             print(f"Error during initialization: {str(e)}")
             

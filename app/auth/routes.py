@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, flash, request
-from flask_login import login_user, logout_user, current_user, login_required
+from flask_login import login_user, logout_user, current_user
 from app.auth import bp
 from app.auth.forms import LoginForm, RegistrationForm
 from app.models import User
@@ -16,7 +16,7 @@ def login():
             flash('Invalid username or password')
             return redirect(url_for('auth.login'))
         login_user(user)
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.dashboard'))  # Redirect to dashboard
     return render_template('auth/login.html', title='Sign In', form=form)
 
 @bp.route('/register', methods=['GET', 'POST'])
@@ -29,7 +29,7 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Congratulations, you are now a registered user!')
+        flash('Registration successful!')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', title='Register', form=form)
 

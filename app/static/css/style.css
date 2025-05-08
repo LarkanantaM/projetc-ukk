@@ -1,0 +1,21 @@
+.card {
+    margin-bottom: 1rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.nav-tabs .nav-link {
+    color: #495057;
+}
+
+.nav-tabs .nav-link.active {
+    color: #007bff;
+    font-weight: 500;
+}
+
+.badge {
+    font-size: 0.875rem;
+}
+
+.table td, .table th {
+    vertical-align: middle;
+}
