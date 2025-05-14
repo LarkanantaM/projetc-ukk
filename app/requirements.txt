@@ -1,28 +1,5 @@
-student-admission-system
-├── src
-│   ├── main.py
-│   ├── auth
-│   │   ├── __init__.py
-│   │   ├── login.py
-│   │   └── register.py
-│   ├── forms
-│   │   ├── __init__.py
-│   │   └── admission_form.py
-│   ├── models
-│   │   ├── __init__.py
-│   │   ├── student.py
-│   │   └── user.py
-│   ├── database
-│   │   ├── __init__.py
-│   │   └── db_config.py
-│   ├── templates
-│   │   ├── login.html
-│   │   ├── register.html
-│   │   └── admission_form.html
-│   └── static
-│       ├── css
-│       │   └── style.css
-│       └── js
-│           └── script.js
-├── requirements.txt
-└── README.md
+Flask==2.0.1
+Flask-Login==0.5.0
+Flask-SQLAlchemy==2.5.1
+Werkzeug==2.0.1
+Jinja2==3.0.1

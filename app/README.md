@@ -1,34 +1,59 @@
-# Student Admission System
+# README.md
 
-This project is a simple Student Admission System built using Python. It provides functionalities for new student admissions, user login, and registration.
+# Simple Python Web App
 
-## Features
+This project is a simple web application built using Python. It features a login system and a main dashboard for users after they log in.
 
-- User registration
-- User login
-- Admission form for new students
-- Basic validation for forms
+## Project Structure
 
-## Directory Structure
+```
+python-web-app
+├── src
+│   ├── app.py                # Entry point of the application
+│   ├── templates             # HTML templates
+│   │   ├── base.html         # Base template
+│   │   ├── login.html        # Login form
+│   │   └── dashboard.html     # User dashboard
+│   ├── static                # Static files (CSS, JS)
+│   │   ├── css
+│   │   │   └── style.css     # Styles for the application
+│   │   └── js
+│   │       └── main.js       # Client-side JavaScript
+│   ├── models                # Data models
+│   │   └── user.py           # User model
+│   └── routes                # Application routes
+│       ├── auth.py           # Authentication routes
+│       └── dashboard.py       # Dashboard routes
+├── requirements.txt          # Project dependencies
+└── README.md                 # Project documentation
+```
 
-- `src/`: Contains the source code for the application.
-  - `main.py`: Entry point of the application.
-  - `auth/`: Contains authentication-related logic.
-  - `forms/`: Contains form definitions.
-  - `models/`: Contains data models.
-  - `database/`: Contains database configuration and connection logic.
-  - `templates/`: Contains HTML templates for the application.
-  - `static/`: Contains static files like CSS and JavaScript.
+## Setup Instructions
 
-## Requirements
+1. Clone the repository:
+   ```
+   git clone <repository-url>
+   ```
 
-To run this project, you need to install the required dependencies listed in `requirements.txt`.
+2. Navigate to the project directory:
+   ```
+   cd python-web-app
+   ```
+
+3. Install the required dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+
+4. Run the application:
+   ```
+   python src/app.py
+   ```
 
 ## Usage
 
-1. Clone the repository.
-2. Install the required packages using `pip install -r requirements.txt`.
-3. Run the application using `python src/main.py`.
+- Access the login page at `http://localhost:5000/login`.
+- After logging in, you will be redirected to the dashboard.
 
 ## License
 

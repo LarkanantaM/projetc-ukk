@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PPDB Online - Penerimaan Peserta Didik Baru</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+        }
+        .navbar {
+            background-color: #004d99;
+            padding: 1rem;
+            color: white;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://example.com/school.jpg');
+            background-size: cover;
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px;
+        }
+        .btn-primary {
+            background-color: #004d99;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #28a745;
+            color: white;
+        }
+        .timeline {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+        }
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">PPDB Online 2025/2026</div>
+    </nav>
+
+    <section class="hero">
+        <h1>Selamat Datang di PPDB Online</h1>
+        <p>Penerimaan Peserta Didik Baru Tahun Ajaran 2025/2026</p>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Login</a>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-secondary">Daftar Sekarang</a>
+    </section>
+
+    <div class="container">
+        <div class="info-cards">
+            <div class="card">
+                <h3>Alur Pendaftaran</h3>
+                <p>1. Buat akun<br>2. Login<br>3. Isi formulir<br>4. Upload berkas<br>5. Cetak bukti pendaftaran</p>
+            </div>
+            <div class="card">
+                <h3>Persyaratan</h3>
+                <p>- Ijazah/SKL<br>- Kartu Keluarga<br>- Akte Kelahiran<br>- Foto</p>
+            </div>
+            <div class="card">
+                <h3>Informasi Kontak</h3>
+                <p>Email: ppdb@school.edu<br>Telp: (021) 1234567<br>WhatsApp: 0812-3456-7890</p>
+            </div>
+        </div>
+
+        <div class="timeline">
+            <h2>Timeline PPDB</h2>
+            <p>
+                Pendaftaran: 1 - 30 Juni 2025<br>
+                Verifikasi: 1 - 5 Juli 2025<br>
+                Pengumuman: 10 Juli 2025<br>
+                Daftar Ulang: 11 - 15 Juli 2025
+            </p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 PPDB Online. All rights reserved.</p>
+    </footer>
+</body>
+</html>
