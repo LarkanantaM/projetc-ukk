@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
-from models.user import User, db
+from models.user import User, db, UserRole
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -10,15 +10,14 @@ def login():
         password = request.form.get('password')
         
         user = User.query.filter_by(username=username).first()
+        
         if user and user.check_password(password):
             session['user_id'] = user.id
-            session['username'] = user.username
-            flash('Login successful')
+            if user.is_admin():
+                return redirect(url_for('admin_dashboard'))
             return redirect(url_for('dashboard'))
-        else:
-            flash('Invalid username or password')
-            return redirect(url_for('auth.login'))
-    
+            
+        flash('Invalid username or password')
     return render_template('login.html')
 
 @auth_bp.route('/register', methods=['GET', 'POST'])

@@ -20,12 +20,14 @@
         body {
             font-family: 'Segoe UI', sans-serif;
             background-color: var(--secondary-color);
+            display: flex;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
+            flex-grow: 1;
         }
 
         header {
@@ -94,9 +96,72 @@
         .btn-form:hover {
             background-color: #166fe5;
         }
+
+        .sidebar {
+            width: 250px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-line {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .progress-step {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .step-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: white;
+            color: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .step-circle.active {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .main-content h1 {
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 <body>
+    <div class="sidebar">
+        <h3>Registration Progress</h3>
+        <div class="progress-line">
+            <div class="step-line"></div>
+            <div class="progress-step">
+                <div class="step-circle active">1</div>
+                <span>Personal Info</span>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">2</div>
+                <span>Document Upload</span>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">3</div>
+                <span>Review</span>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">4</div>
+                <span>Complete</span>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <header>
             <h1>Dashboard PPDB Online</h1>
@@ -109,15 +174,7 @@
                 <p><strong>Email:</strong> {{ email }}</p>
             </section>
             <section class="activity-section">
-                <h2>Status Pendaftaran</h2>
-                <ul>
-                    <li>✓ Pembuatan Akun</li>
-                    <li>
-                        □ Pengisian Formulir
                         <a href="{{ url_for('auth.form') }}" class="btn-form">Isi Formulir</a>
-                    </li>
-                    <li>□ Upload Dokumen</li>
-                    <li>□ Verifikasi Data</li>
                 </ul>
             </section>
         </main>
