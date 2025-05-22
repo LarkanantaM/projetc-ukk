@@ -17,68 +17,68 @@ PPDB Online System is a student registration management platform with:
 
 ### 🏠 Halaman Utama
 <div align="center">
-  <img src="static/images/landing.png" alt="Homepage" width="100%"/>
+  <img src="static/images/dokumentasi/landing.png" alt="Homepage" width="100%"/>
   <p>Tampilan halaman utama sistem PMB</p>
 </div>
 
 ### 🏠 Halaman Utama
 <div align="center">
-  <img src="static/images/keterangan pendaftaran.png" alt="Homepage" width="100%"/>
+  <img src="static/images/dokumentasi/keterangan pendaftaran.png" alt="Homepage" width="100%"/>
   <p>Tampilan halaman utama sistem PMB</p>
 </div>
 
 ### 🏠 Halaman Utama
 <div align="center">
-  <img src="static/images/detail pendaftaran2.png" alt="Homepage" width="100%"/>
+  <img src="static/images/dokumentasi/detail pendaftaran2.png" alt="Homepage" width="100%"/>
   <p>Tampilan halaman utama sistem PMB</p>
 </div>
 
 ### 📃 Halaman Register
 <div align="center">
-  <img src="static/images/Register.png" alt="Register" width="100%"/>
+  <img src="static/images/dokumentasi/Register.png" alt="Register" width="100%"/>
   <p>Tampilan halaman register sistem PMB</p>
 </div>
 
 ### 👤 Halaman Login
 <div align="center">
-  <img src="static/images/Login.png" alt="Login" width="100%"/>
+  <img src="static/images/dokumentasi/Login.png" alt="Login" width="100%"/>
   <p>Tampilan halaman login sistem PMB</p>
 </div>
 
 ### 🖊️ Halaman User Dashboard
 <div align="center">
-  <img src="static/images/User.png" alt="User Dashboard" width="100%"/>
+  <img src="static/images/dokumentasi/User.png" alt="User Dashboard" width="100%"/>
   <p>Tampilan halaman dashboard user sistem PMB</p>
 </div>
 
 ### 📃🖊️ Halaman Form Data Diri
 <div align="center">
-  <img src="static/images/FormDataDiri.png" alt="Admin2" width="100%"/>
+  <img src="static/images/dokumentasi/FormDataDiri.png" alt="Admin2" width="100%"/>
   <p>Tampilan halaman Data Diri sistem PMB</p>
 </div>
 
 
 ### 📃🖊️ Halaman Form Akademik
 <div align="center">
-  <img src="static/images/FormAkademik.png" alt="Admin2" width="100%"/>
+  <img src="static/images/dokumentasi/FormAkademik.png" alt="Admin2" width="100%"/>
   <p>Tampilan halaman Data Akademik sistem PMB</p>
 </div>
 
 ### 📃🖊️ Halaman Form Verivication
 <div align="center">
-  <img src="static/images/FormVerif.png" alt="Admin2" width="100%"/>
+  <img src="static/images/dokumentasi/FormVerif.png" alt="Admin2" width="100%"/>
   <p>Tampilan halaman Verivikasi Data sistem PMB</p>
 </div>
 
 ### ⚙️ Halaman Admin
 <div align="center">
-  <img src="static/images/Admin1.png" alt="Admin1" width="100%"/>
+  <img src="static/images/dokumentasi/Admin1.png" alt="Admin1" width="100%"/>
   <p>Tampilan halaman utama admin sistem PMB</p>
 </div>
 
 ### ⚙️ Halaman Admin Panel
 <div align="center">
-  <img src="static/images/Admin2.png" alt="Admin2" width="100%"/>
+  <img src="static/images/dokumentasi/Admin2.png" alt="Admin2" width="100%"/>
   <p>Tampilan halaman Panel Admin sistem PMB</p>
 </div>
 
