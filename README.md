@@ -16,71 +16,37 @@ PPDB Online System is a student registration management platform with:
 - Secure document upload & QR verification
 
 ### 🏠 Halaman Utama
-<div align="center">
-  <img src="static/images/dokumentasi/landing.png" alt="Homepage" width="100%"/>
-  <p>Tampilan halaman utama sistem PMB</p>
-</div>
+![Landing Page](app/static/images/dokumentasi/landing.png)
 
-### 🏠 Halaman Utama
-<div align="center">
-  <img src="static/images/dokumentasi/keterangan pendaftaran.png" alt="Homepage" width="100%"/>
-  <p>Tampilan halaman utama sistem PMB</p>
-</div>
+### 🏠 Keterangan Pendaftaran
+![Registration Info](app/static/images/dokumentasi/keterangan%20pendaftaran.png)
 
-### 🏠 Halaman Utama
-<div align="center">
-  <img src="static/images/dokumentasi/detail pendaftaran2.png" alt="Homepage" width="100%"/>
-  <p>Tampilan halaman utama sistem PMB</p>
-</div>
+### 🏠 Detail Pendaftaran
+![Registration Details](app/static/images/dokumentasi/keterangan%20pendaftaran2.png)
 
 ### 📃 Halaman Register
-<div align="center">
-  <img src="static/images/dokumentasi/Register.png" alt="Register" width="100%"/>
-  <p>Tampilan halaman register sistem PMB</p>
-</div>
+![Register Page](app/static/images/dokumentasi/Register.png)
 
 ### 👤 Halaman Login
-<div align="center">
-  <img src="static/images/dokumentasi/Login.png" alt="Login" width="100%"/>
-  <p>Tampilan halaman login sistem PMB</p>
-</div>
+![Login Page](app/static/images/dokumentasi/Login.png)
 
 ### 🖊️ Halaman User Dashboard
-<div align="center">
-  <img src="static/images/dokumentasi/User.png" alt="User Dashboard" width="100%"/>
-  <p>Tampilan halaman dashboard user sistem PMB</p>
-</div>
+![User Dashboard](app/static/images/dokumentasi/User.png)
 
 ### 📃🖊️ Halaman Form Data Diri
-<div align="center">
-  <img src="static/images/dokumentasi/FormDataDiri.png" alt="Admin2" width="100%"/>
-  <p>Tampilan halaman Data Diri sistem PMB</p>
-</div>
-
+![Personal Data Form](app/static/images/dokumentasi/FormDataDiri.png)
 
 ### 📃🖊️ Halaman Form Akademik
-<div align="center">
-  <img src="static/images/dokumentasi/FormAkademik.png" alt="Admin2" width="100%"/>
-  <p>Tampilan halaman Data Akademik sistem PMB</p>
-</div>
+![Academic Form](app/static/images/dokumentasi/FormAkademik.png)
 
-### 📃🖊️ Halaman Form Verivication
-<div align="center">
-  <img src="static/images/dokumentasi/FormVerif.png" alt="Admin2" width="100%"/>
-  <p>Tampilan halaman Verivikasi Data sistem PMB</p>
-</div>
+### 📃🖊️ Halaman Form Verifikasi
+![Verification Form](app/static/images/dokumentasi/FormVerif.png)
 
 ### ⚙️ Halaman Admin
-<div align="center">
-  <img src="static/images/dokumentasi/Admin1.png" alt="Admin1" width="100%"/>
-  <p>Tampilan halaman utama admin sistem PMB</p>
-</div>
+![Admin Dashboard](app/static/images/dokumentasi/Admin1.png)
 
 ### ⚙️ Halaman Admin Panel
-<div align="center">
-  <img src="static/images/dokumentasi/Admin2.png" alt="Admin2" width="100%"/>
-  <p>Tampilan halaman Panel Admin sistem PMB</p>
-</div>
+![Admin Panel](app/static/images/dokumentasi/Admin2.png)
 
 ---
 
@@ -265,168 +231,4 @@ Jika Anda ingin saya bantu:
 - Membuat versi **README berbahasa Indonesia** juga
 
 Silakan beri tahu!
-
-
-
-
-
-
-Anda bilang:
-buat dalam 1 halaman markdown
-
-
-ChatGPT bilang:
-Berikut ini adalah versi README.md satu halaman yang rapi dan menarik untuk ditampilkan di GitHub:
-
-markdown
-Salin
-Edit
-# 📚 PPDB Online System
-
-> Sistem PPDB berbasis web modern dengan autentikasi pengguna, kontrol akses berbasis peran, dan manajemen pendaftaran otomatis.
-
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)
-![Flask](https://img.shields.io/badge/Flask-2.0%2B-orange.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
-
----
-
-## 🌟 Fitur Unggulan
-
-### 🔐 Autentikasi & Peran Pengguna
-- Login aman
-- Role: Admin & Siswa
-- Kontrol akses berbasis peran
-
-### 📝 Manajemen Pendaftaran
-- Formulir pendaftaran ramah pengguna
-- Pelacakan progres pendaftaran
-- Upload dokumen
-- Nomor pendaftaran otomatis
-- Kartu QR untuk verifikasi
-
-### 👨‍💼 Fitur Admin
-- Dashboard statistik pendaftar
-- Lihat & verifikasi data pendaftar
-- Ubah status aplikasi
-- Kelola akun pengguna
-
-### 🎓 Fitur Siswa
-- Isi formulir pendaftaran
-- Upload dokumen
-- Lihat status aplikasi
-- Unduh kartu pendaftaran (QR code)
-
----
-
-## 🛠️ Teknologi
-
-| Kategori     | Teknologi               |
-| ------------ | ----------------------- |
-| Backend      | Flask (Python)          |
-| Database     | SQLAlchemy              |
-| Frontend     | HTML, CSS, JavaScript   |
-| Autentikasi  | Flask-Login             |
-| File Upload  | Flask-Upload            |
-| QR Code      | `qrcode` library        |
-
----
-
-## ⚙️ Instalasi
-
-### 1. Clone Repository
-```bash
-git clone <repository-url>
-cd ppdb-online
-2. Buat Virtual Environment
-bash
-Salin
-Edit
-python -m venv .venv
-.venv\Scripts\activate  # Windows
-3. Instal Dependensi
-bash
-Salin
-Edit
-pip install -r requirements.txt
-4. Konfigurasi Environment
-bash
-Salin
-Edit
-set FLASK_APP=app.py
-set FLASK_ENV=development
-5. Inisialisasi Database
-bash
-Salin
-Edit
-flask db init
-flask db migrate
-flask db upgrade
-6. Buat Akun Admin
-bash
-Salin
-Edit
-flask create-admin
-🚀 Menjalankan Aplikasi
-bash
-Salin
-Edit
-flask run
-🌐 Website: http://localhost:5000
-
-🔧 Admin Dashboard: http://localhost:5000/admin
-
-👤 Default Admin
-Username: admin
-
-Password: admin123
-
-📋 Alur Pendaftaran
-Registrasi akun siswa
-
-Isi biodata dan info akademik
-
-Upload dokumen
-
-Lacak status aplikasi
-
-Unduh kartu pendaftaran (QR)
-
-🔐 Keamanan
-Password hashing
-
-Role-based access
-
-Manajemen sesi
-
-Validasi input
-
-Upload file aman
-
-📎 Dokumen yang Didukung
-Akta kelahiran
-
-Ijazah/sekolah
-
-Pas foto
-
-Kartu keluarga
-
-Transkrip nilai
-
-🎨 Tampilan & UX
-Desain responsif (mobile-friendly)
-
-Antarmuka modern
-
-Indikator progres
-
-Notifikasi status
-
-💻 Kebutuhan Sistem
-Python 3.8+
-
-Flask 2.0+
-
-Browser modern
 
