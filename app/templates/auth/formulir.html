@@ -1,0 +1,324 @@
+{% extends "base.html" %}
+
+{% block title %}Formulir Pendaftaran{% endblock %}
+
+{% block content %}
+<div class="container mt-4 mb-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white p-3">
+            <h4 class="mb-0"><i class="bi bi-person-plus-fill"></i> Formulir Pendaftaran Siswa Baru</h4>
+        </div>
+        <div class="card-body p-4">
+            <form method="POST" enctype="multipart/form-data" id="registrationForm" class="needs-validation" novalidate>
+                <!-- Progress Bar -->
+                <div class="progress mb-4" style="height: 3px;">
+                    <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                </div>
+
+                <!-- Step indicators -->
+                <div class="d-flex justify-content-between mb-4">
+                    <span class="step-indicator active" data-step="1">Data Pribadi</span>
+                    <span class="step-indicator" data-step="2">Data Akademik</span>
+                    <span class="step-indicator" data-step="3">Konfirmasi</span>
+                </div>
+
+                <!-- Step 1: Data Pribadi -->
+                <div class="form-step" id="step1">
+                    <div class="mb-3">
+                        <label for="nama" class="form-label">Nama Lengkap</label>
+                        <input type="text" class="form-control" id="nama" name="nama" 
+                               value="{{ current_user.username }}" required
+                               data-bs-toggle="tooltip" title="Masukkan nama lengkap sesuai ijazah">
+                        <div class="invalid-feedback">Nama lengkap harus diisi</div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="tempat_lahir" class="form-label">Tempat Lahir</label>
+                            <input type="text" class="form-control" id="tempat_lahir" name="tempat_lahir" required>
+                            <div class="invalid-feedback">Tempat lahir harus diisi</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
+                            <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" required>
+                            <div class="invalid-feedback">Tanggal lahir harus diisi</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="alamat" class="form-label">Alamat Rumah</label>
+                        <textarea class="form-control" id="alamat" name="alamat" rows="3" required></textarea>
+                        <div class="invalid-feedback">Alamat harus diisi</div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="kelamin" class="form-label">Jenis Kelamin</label>
+                            <select class="form-select" id="kelamin" name="kelamin" required>
+                                <option value="">Pilih Jenis Kelamin</option>
+                                <option value="L">Laki-laki</option>
+                                <option value="P">Perempuan</option>
+                            </select>
+                            <div class="invalid-feedback">Pilih jenis kelamin</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="agama" class="form-label">Agama</label>
+                            <select class="form-select" id="agama" name="agama" required>
+                                <option value="">Pilih Agama</option>
+                                <option value="Islam">Islam</option>
+                                <option value="Kristen">Kristen</option>
+                                <option value="Katolik">Katolik</option>
+                                <option value="Hindu">Hindu</option>
+                                <option value="Buddha">Buddha</option>
+                                <option value="Konghucu">Konghucu</option>
+                            </select>
+                            <div class="invalid-feedback">Pilih agama</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Data Akademik -->
+                <div class="form-step d-none" id="step2">
+                    <div class="mb-3">
+                        <label for="asal_sekolah" class="form-label">Asal Sekolah</label>
+                        <input type="text" class="form-control" id="asal_sekolah" name="asal_sekolah" required>
+                        <div class="invalid-feedback">Asal sekolah harus diisi</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="jurusan" class="form-label">Jurusan yang Diminati</label>
+                        <select class="form-select" id="jurusan" name="jurusan" required>
+                            <option value="">Pilih Jurusan</option>
+                            <option value="RPL">Rekayasa Perangkat Lunak</option>
+                            <option value="TSM">Teknik Sepeda Motor</option>
+                            <option value="HOTEL">Perhotelan</option>
+                        </select>
+                        <div class="invalid-feedback">Pilih jurusan</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nilai_rata" class="form-label">Nilai Rata-rata Rapor</label>
+                        <input type="number" class="form-control" id="nilai_rata" name="nilai_rata" 
+                               step="0.01" min="0" max="100" required>
+                        <div class="invalid-feedback">Masukkan nilai rata-rata yang valid (0-100)</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ijazah" class="form-label">Unggah Ijazah</label>
+                        <input type="file" class="form-control" id="ijazah" name="ijazah" 
+                               accept=".pdf,.jpg,.jpeg,.png" required>
+                        <div class="form-text">Format: PDF, JPG, PNG (Max: 2MB)</div>
+                        <div class="invalid-feedback">Pilih file ijazah</div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Konfirmasi -->
+                <div class="form-step d-none" id="step3">
+                    <h5 class="mb-3">Konfirmasi Data</h5>
+                    <div class="confirmation-data"></div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="confirmCheck" required>
+                        <label class="form-check-label" for="confirmCheck">
+                            Saya menyatakan bahwa data yang diisi adalah benar
+                        </label>
+                        <div class="invalid-feedback">Anda harus menyetujui pernyataan ini</div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="button" class="btn btn-secondary" id="prevBtn" style="display: none;">
+                        <i class="bi bi-arrow-left"></i> Sebelumnya
+                    </button>
+                    <button type="button" class="btn btn-primary" id="nextBtn">
+                        Selanjutnya <i class="bi bi-arrow-right"></i>
+                    </button>
+                    <button type="submit" class="btn btn-success" id="submitBtn" style="display: none;">
+                        <i class="bi bi-check-circle"></i> Kirim Pendaftaran
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% block extra_css %}
+<style>
+.step-indicator {
+    font-size: 0.9rem;
+    color: #6c757d;
+    position: relative;
+    cursor: pointer;
+}
+
+.step-indicator.active {
+    color: #0d6efd;
+    font-weight: 600;
+}
+
+.step-indicator::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #0d6efd;
+    transition: width 0.3s;
+}
+
+.step-indicator.active::after {
+    width: 100%;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.form-step {
+    transition: all 0.3s ease;
+}
+
+.was-validated .form-control:valid, .was-validated .form-select:valid {
+    border-color: #198754;
+    background-image: none;
+}
+
+.was-validated .form-control:invalid, .was-validated .form-select:invalid {
+    border-color: #dc3545;
+    background-image: none;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('registrationForm');
+    const steps = document.querySelectorAll('.form-step');
+    const progressBar = document.querySelector('.progress-bar');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    let currentStep = 1;
+
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+
+    // Update progress
+    function updateProgress() {
+        const progress = ((currentStep - 1) / (steps.length - 1)) * 100;
+        progressBar.style.width = `${progress}%`;
+        document.querySelectorAll('.step-indicator').forEach((step, index) => {
+            step.classList.toggle('active', index + 1 <= currentStep);
+        });
+    }
+
+    // Validate current step
+    function validateStep(step) {
+        let isValid = true;
+        const currentInputs = steps[step-1].querySelectorAll('input, select, textarea');
+        
+        currentInputs.forEach(input => {
+            if (!input.checkValidity()) {
+                isValid = false;
+                input.classList.add('is-invalid');
+            } else {
+                input.classList.remove('is-invalid');
+            }
+        });
+
+        return isValid;
+    }
+
+    // Navigation handlers
+    nextBtn.addEventListener('click', () => {
+        if (validateStep(currentStep)) {
+            if (currentStep < steps.length) {
+                steps[currentStep-1].classList.add('d-none');
+                steps[currentStep].classList.remove('d-none');
+                currentStep++;
+                
+                if (currentStep === steps.length) {
+                    nextBtn.style.display = 'none';
+                    submitBtn.style.display = 'block';
+                    // Update confirmation data
+                    updateConfirmationData();
+                }
+                
+                prevBtn.style.display = 'block';
+                updateProgress();
+            }
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentStep > 1) {
+            steps[currentStep-1].classList.add('d-none');
+            steps[currentStep-2].classList.remove('d-none');
+            currentStep--;
+            
+            if (currentStep === 1) {
+                prevBtn.style.display = 'none';
+            }
+            
+            nextBtn.style.display = 'block';
+            submitBtn.style.display = 'none';
+            updateProgress();
+        }
+    });
+
+    // Update confirmation data
+    function updateConfirmationData() {
+        const confirmationDiv = document.querySelector('.confirmation-data');
+        const formData = new FormData(form);
+        let html = '<div class="table-responsive"><table class="table">';
+        
+        formData.forEach((value, key) => {
+            if (key !== 'ijazah') {
+                html += `
+                    <tr>
+                        <td class="fw-bold">${key.replace('_', ' ').toUpperCase()}</td>
+                        <td>${value}</td>
+                    </tr>
+                `;
+            }
+        });
+        
+        html += '</table></div>';
+        confirmationDiv.innerHTML = html;
+    }
+
+    // File size validation
+    document.getElementById('ijazah').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        const maxSize = 2 * 1024 * 1024; // 2MB
+        
+        if (file.size > maxSize) {
+            alert('Ukuran file terlalu besar. Maksimal 2MB');
+            this.value = '';
+        }
+    });
+
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (validateStep(currentStep) && document.getElementById('confirmCheck').checked) {
+            if (confirm('Apakah Anda yakin ingin mengirim formulir ini?')) {
+                this.submit();
+            }
+        }
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}

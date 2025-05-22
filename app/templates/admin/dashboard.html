@@ -1,0 +1,381 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Statistics Cards Row -->
+    <div class="row g-3 mb-4">
+        <!-- Total Pendaftar Card -->
+        <div class="col-xl-3 col-sm-6">
+            <div class="card stats-card animate__animated animate__fadeInUp">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-2">Total Pendaftar</p>
+                            <h3 class="mb-0">{{ all_forms|length }}</h3>
+                            <small class="text-success">
+                                <i class="bi bi-graph-up"></i> +{{ recent_forms|length }} minggu ini
+                            </small>
+                        </div>
+                        <div class="stats-icon bg-primary">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending Applications Card -->
+        <div class="col-xl-3 col-sm-6">
+            <div class="card stats-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-2">Menunggu Verifikasi</p>
+                            <h3 class="mb-0">{{ pending_forms|length }}</h3>
+                            <small class="text-warning">
+                                <i class="bi bi-clock"></i> Perlu review
+                            </small>
+                        </div>
+                        <div class="stats-icon bg-warning">
+                            <i class="bi bi-hourglass-split"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accepted Applications Card -->
+        <div class="col-xl-3 col-sm-6">
+            <div class="card stats-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-2">Diterima</p>
+                            <h3 class="mb-0">{{ accepted_forms|length }}</h3>
+                            <small class="text-success">
+                                <i class="bi bi-check-circle"></i> Terverifikasi
+                            </small>
+                        </div>
+                        <div class="stats-icon bg-success">
+                            <i class="bi bi-person-check-fill"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rejected Applications Card -->
+        <div class="col-xl-3 col-sm-6">
+            <div class="card stats-card animate__animated animate__fadeInUp" style="animation-delay: 0.3s">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-2">Ditolak</p>
+                            <h3 class="mb-0">{{ rejected_forms|length }}</h3>
+                            <small class="text-danger">
+                                <i class="bi bi-x-circle"></i> Tidak memenuhi syarat
+                            </small>
+                        </div>
+                        <div class="stats-icon bg-danger">
+                            <i class="bi bi-person-x-fill"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row mb-4">
+        <!-- Jurusan Distribution Chart -->
+        <div class="col-xl-8">
+            <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.4s">
+                <div class="card-header bg-white py-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="m-0 font-weight-bold text-primary">Distribusi Pendaftar per Jurusan</h6>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-link" type="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" onclick="downloadChart('jurusanChart')">Download Chart</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="printChart('jurusanChart')">Print Chart</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <canvas id="jurusanChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Daily Applications Chart -->
+        <div class="col-xl-4">
+            <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.5s">
+                <div class="card-header bg-white py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Pendaftar per Hari</h6>
+                </div>
+                <div class="card-body">
+                    <canvas id="dailyChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Applications Table -->
+    <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.6s">
+        <div class="card-header bg-white py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">Daftar Pendaftar</h6>
+                <div class="btn-group">
+                    <button class="btn btn-sm btn-outline-primary" id="viewToggle">
+                        <i class="bi bi-grid"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary" id="refreshTable">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-success" onclick="exportToExcel()">
+                        <i class="bi bi-file-earmark-excel"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="applicantsTable">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Jurusan</th>
+                            <th>Asal Sekolah</th>
+                            <th>Nilai</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for form in all_forms %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ form.nama }}</td>
+                            <td>{{ form.jurusan }}</td>
+                            <td>{{ form.asal_sekolah }}</td>
+                            <td>{{ form.nilai_rata }}</td>
+                            <td>
+                                {% if form.user.is_accepted is none %}
+                                    <span class="badge bg-warning">Pending</span>
+                                {% elif form.user.is_accepted %}
+                                    <span class="badge bg-success">Diterima</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Ditolak</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn btn-sm btn-info" onclick="viewDetails('{{ form.id }}')">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                    {% if form.user.is_accepted is none %}
+                                    <button class="btn btn-sm btn-success" onclick="reviewApplication('{{ form.user.id }}', 'accept')">
+                                        <i class="bi bi-check"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" onclick="reviewApplication('{{ form.user.id }}', 'reject')">
+                                        <i class="bi bi-x"></i>
+                                    </button>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+<style>
+.stats-card {
+    border: none;
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.stats-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: white;
+}
+
+.card {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(13, 110, 253, 0.05);
+    cursor: pointer;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.rotate-animation {
+    animation: rotate 0.5s linear;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize DataTable
+    const table = $('#applicantsTable').DataTable({
+        pageLength: 10,
+        order: [[0, 'desc']],
+        language: {
+            search: "Cari:",
+            lengthMenu: "Tampilkan _MENU_ data",
+            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+            paginate: {
+                first: "Pertama",
+                last: "Terakhir",
+                next: "Selanjutnya",
+                previous: "Sebelumnya"
+            }
+        }
+    });
+
+    // Initialize Jurusan Distribution Chart
+    const jurusanCtx = document.getElementById('jurusanChart').getContext('2d');
+    new Chart(jurusanCtx, {
+        type: 'bar',
+        data: {
+            labels: ['RPL', 'TSM', 'HOTEL'],
+            datasets: [{
+                label: 'Jumlah Pendaftar',
+                data: [
+                    {{ jurusan_stats.RPL|default(0) }},
+                    {{ jurusan_stats.TSM|default(0) }},
+                    {{ jurusan_stats.HOTEL|default(0) }}
+                ],
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Distribusi Pendaftar per Jurusan'
+                }
+            }
+        }
+    });
+
+    // Initialize Daily Applications Chart
+    const dailyCtx = document.getElementById('dailyChart').getContext('2d');
+    new Chart(dailyCtx, {
+        type: 'line',
+        data: {
+            labels: {{ daily_labels|tojson }},
+            datasets: [{
+                label: 'Pendaftar per Hari',
+                data: {{ daily_counts|tojson }},
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            }
+        }
+    });
+
+    // Refresh button animation
+    $('#refreshTable').click(function() {
+        $(this).addClass('rotate-animation');
+        setTimeout(() => location.reload(), 500);
+    });
+
+    // View toggle
+    $('#viewToggle').click(function() {
+        $('.table-responsive').toggleClass('card-view');
+        $(this).find('i').toggleClass('bi-grid bi-table');
+    });
+});
+
+// View details function
+function viewDetails(formId) {
+    window.location.href = `/auth/view-formulir/${formId}`;
+}
+
+// Review application function
+function reviewApplication(userId, action) {
+    if (!confirm(`Are you sure you want to ${action} this application?`)) return;
+
+    fetch(`/admin/review/${userId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ action })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Error processing request');
+        }
+    });
+}
+
+// Export to Excel function
+function exportToExcel() {
+    window.location.href = '/admin/export-excel';
+}
+</script>
+{% endblock %}
+{% endblock %}

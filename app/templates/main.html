@@ -1,0 +1,302 @@
+{% extends "base.html" %}
+
+{% block title %}PPDB SMK{% endblock %}
+
+{% block content %}
+<div class="hero-section text-white position-relative">
+    <div class="overlay"></div>
+    <div class="container position-relative py-5">
+        <div class="row min-vh-100 align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4 animate__animated animate__fadeInUp">
+                    Penerimaan Peserta Didik Baru 2025/2026
+                </h1>
+                <p class="lead mb-4 animate__animated animate__fadeInUp animate__delay-1s">
+                    SMK MANDIRI - Membentuk Generasi Unggul dan Siap Kerja
+                </p>
+                <div class="animate__animated animate__fadeInUp animate__delay-2s">
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg me-3">
+                        <i class="bi bi-person-plus"></i> Daftar Sekarang
+                    </a>
+                    <a href="#info" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-info-circle"></i> Info Selengkapnya
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section id="info" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Informasi PPDB</h2>
+        
+        <!-- Timeline -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-badge bg-primary">
+                            <i class="bi bi-1-circle"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>Pendaftaran Online</h4>
+                            <p class="text-muted">1 Juni - 30 Juni 2025</p>
+                            <p>Daftar online melalui website dan upload dokumen yang diperlukan</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-badge bg-primary">
+                            <i class="bi bi-2-circle"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>Seleksi Berkas</h4>
+                            <p class="text-muted">1 Juli - 7 Juli 2025</p>
+                            <p>Verifikasi dokumen dan seleksi nilai rapor</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-badge bg-primary">
+                            <i class="bi bi-3-circle"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>Pengumuman</h4>
+                            <p class="text-muted">10 Juli 2025</p>
+                            <p>Pengumuman hasil seleksi melalui website dan email</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-badge bg-success">
+                            <i class="bi bi-4-circle"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>Daftar Ulang</h4>
+                            <p class="text-muted">11 Juli - 14 Juli 2025</p>
+                            <p>Pembayaran biaya pendaftaran dan melengkapi berkas</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Program Keahlian -->
+        <div class="row mb-5">
+            <h3 class="text-center mb-4">Program Keahlian</h3>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 program-card">
+                    <div class="card-body text-center">
+                        <div class="program-icon mb-3">
+                            <i class="bi bi-laptop"></i>
+                        </div>
+                        <h4>Rekayasa Perangkat Lunak</h4>
+                        <p>Kuota: 72 Siswa</p>
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-check-circle text-success"></i> Web Development</li>
+                            <li><i class="bi bi-check-circle text-success"></i> Mobile Apps</li>
+                            <li><i class="bi bi-check-circle text-success"></i> Database Management</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 program-card">
+                    <div class="card-body text-center">
+                        <div class="program-icon mb-3">
+                            <i class="bi bi-tools"></i>
+                        </div>
+                        <h4>Teknik Sepeda Motor</h4>
+                        <p>Kuota: 72 Siswa</p>
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-check-circle text-success"></i> Mesin Motor</li>
+                            <li><i class="bi bi-check-circle text-success"></i> Kelistrikan</li>
+                            <li><i class="bi bi-check-circle text-success"></i> Perawatan Berkala</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 program-card">
+                    <div class="card-body text-center">
+                        <div class="program-icon mb-3">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <h4>Perhotelan</h4>
+                        <p>Kuota: 72 Siswa</p>
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-check-circle text-success"></i> Front Office</li>
+                            <li><i class="bi bi-check-circle text-success"></i> Housekeeping</li>
+                            <li><i class="bi bi-check-circle text-success"></i> F&B Service</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h3 class="text-center mb-4">Frequently Asked Questions</h3>
+                <div class="accordion" id="faqAccordion">
+                    <!-- FAQ items will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<style>
+.hero-section {
+    background: url('/static/images/school-bg.jpg') no-repeat center center;
+    background-size: cover;
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+}
+
+.timeline {
+    position: relative;
+    padding: 20px 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background: #e9ecef;
+    transform: translateX(-50%);
+}
+
+.timeline-item {
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.timeline-badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.timeline-content {
+    width: calc(50% - 30px);
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+.timeline-item:nth-child(odd) .timeline-content {
+    margin-left: auto;
+}
+
+.program-card {
+    transition: transform 0.3s ease;
+    border: none;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+.program-card:hover {
+    transform: translateY(-10px);
+}
+
+.program-icon {
+    font-size: 3rem;
+    color: #0d6efd;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #e7f1ff;
+    color: #0d6efd;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // FAQ Data
+    const faqs = [
+        {
+            question: "Apa saja persyaratan pendaftaran?",
+            answer: "Ijazah/SKL SMP/MTs, Rapor, Pas foto, Kartu Keluarga, dan Akta Kelahiran"
+        },
+        {
+            question: "Berapa biaya pendaftaran?",
+            answer: "Biaya pendaftaran sebesar Rp. 500.000"
+        },
+        {
+            question: "Bagaimana sistem seleksinya?",
+            answer: "Seleksi berdasarkan nilai rapor dan kelengkapan berkas"
+        },
+        {
+            question: "Apakah ada tes masuk?",
+            answer: "Tidak ada tes masuk, seleksi berdasarkan nilai rapor"
+        }
+    ];
+
+    // Generate FAQ Accordion
+    const faqAccordion = document.getElementById('faqAccordion');
+    faqs.forEach((faq, index) => {
+        faqAccordion.innerHTML += `
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button ${index !== 0 ? 'collapsed' : ''}" 
+                            type="button" data-bs-toggle="collapse" 
+                            data-bs-target="#faq${index}">
+                        ${faq.question}
+                    </button>
+                </h2>
+                <div id="faq${index}" 
+                     class="accordion-collapse collapse ${index === 0 ? 'show' : ''}"
+                     data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        ${faq.answer}
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Animate elements on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+            }
+        });
+    });
+
+    document.querySelectorAll('.program-card, .timeline-item').forEach((el) => observer.observe(el));
+});
+</script>
+{% endblock %}
+{% endblock %}

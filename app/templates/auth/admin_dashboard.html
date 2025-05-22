@@ -1,0 +1,491 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <h2 class="mb-4">Admin Dashboard</h2>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Pendaftar</h5>
+                    <h3>{{ all_forms|length }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">Pending</h5>
+                    <h3>{{ pending_forms|length }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Diterima</h5>
+                    <h3>{{ accepted_forms|length }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-danger text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Ditolak</h5>
+                    <h3>{{ rejected_forms|length }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Applications Table -->
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4>Daftar Pendaftar</h4>
+            <div class="search-container">
+                <div class="input-group">
+                    <input type="text" id="globalSearch" class="form-control" placeholder="Cari...">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        Filter
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><h6 class="dropdown-header">Filter Berdasarkan</h6></li>
+                        <li><a class="dropdown-item" href="#" data-filter="all">Semua</a></li>
+                        <li><a class="dropdown-item" href="#" data-filter="pending">Pending</a></li>
+                        <li><a class="dropdown-item" href="#" data-filter="accepted">Diterima</a></li>
+                        <li><a class="dropdown-item" href="#" data-filter="rejected">Ditolak</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><h6 class="dropdown-header">Jurusan</h6></li>
+                        <li><a class="dropdown-item" href="#" data-filter="RPL">RPL</a></li>
+                        <li><a class="dropdown-item" href="#" data-filter="TSM">TSM</a></li>
+                        <li><a class="dropdown-item" href="#" data-filter="HOTEL">HOTEL</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped" id="applicationsTable">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Jurusan</th>
+                        <th>Status</th>
+                        <th>Pembayaran</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for form in all_forms %}
+                    <tr data-status="{{ 'pending' if form.user.is_accepted is none else 'accepted' if form.user.is_accepted else 'rejected' }}"
+                        data-jurusan="{{ form.jurusan }}">
+                        <td>{{ loop.index }}</td>
+                        <td>{{ form.nama }}</td>
+                        <td>{{ get_jurusan_name(form.jurusan) }}</td>
+                        <td>
+                            {% if form.user.is_accepted is none %}
+                                <span class="badge bg-warning">Pending</span>
+                            {% elif form.user.is_accepted %}
+                                <span class="badge bg-success">Diterima</span>
+                            {% else %}
+                                <span class="badge bg-danger">Ditolak</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% set payment = get_latest_payment(form.user.id) %}
+                            {% if payment %}
+                                {% if payment.status == 'pending' %}
+                                    <span class="badge bg-warning">Menunggu Verifikasi</span>
+                                {% elif payment.status == 'verified' %}
+                                    <span class="badge bg-success">Terverifikasi</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Ditolak</span>
+                                {% endif %}
+                            {% else %}
+                                <span class="badge bg-secondary">Belum Bayar</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="{{ url_for('auth.view_formulir_admin', user_id=form.user.id) }}" 
+                                   class="btn btn-sm btn-info">
+                                    <i class="bi bi-eye"></i> View
+                                </a>
+                                {% if payment and payment.status == 'pending' %}
+                                    <button onclick="viewPayment({{ payment.id }})" 
+                                            class="btn btn-sm btn-warning">
+                                        <i class="bi bi-credit-card"></i> Verifikasi
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Payment Verification Modal -->
+    <div class="modal fade" id="paymentModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="bi bi-cash"></i> Bukti Pembayaran
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="payment-image-container" id="paymentImageContainer">
+                                <img id="paymentProofImage" 
+                                     src="" 
+                                     class="img-fluid rounded" 
+                                     alt="Bukti Pembayaran"
+                                     onerror="this.onerror=null; this.src='/static/images/error.png'; this.alt='Gagal memuat gambar'; this.parentElement.classList.remove('loading')"
+                                     onload="this.parentElement.classList.remove('loading')">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="payment-details">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h6 class="card-title mb-3">Detail Pembayaran:</h6>
+                                        <p class="mb-2"><strong>Nama:</strong> <span id="paymentName"></span></p>
+                                        <p class="mb-2"><strong>Jumlah:</strong> <span id="paymentAmount"></span></p>
+                                        <p class="mb-2"><strong>Tanggal:</strong> <span id="paymentDate"></span></p>
+                                        <p class="mb-2">
+                                            <strong>Status:</strong> 
+                                            <span id="paymentStatus" class="badge"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <div id="verificationActions">
+                                    <form id="paymentVerificationForm" method="POST">
+                                        <div class="d-grid gap-2">
+                                            <button type="button" class="btn btn-success" onclick="verifyPayment('verify')">
+                                                <i class="bi bi-check-circle"></i> Verifikasi Pembayaran
+                                            </button>
+                                            <button type="button" class="btn btn-danger" onclick="verifyPayment('reject')">
+                                                <i class="bi bi-x-circle"></i> Tolak Pembayaran
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_css %}
+<style>
+.payment-image-container {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.payment-image-container.loading::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.8);
+}
+
+.payment-image-container.loading::after {
+    content: 'Loading...';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #6c757d;
+}
+
+.payment-image-container img {
+    max-width: 100%;
+    max-height: 400px;
+    height: auto;
+    border-radius: 4px;
+    object-fit: contain;
+}
+
+.modal-body {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.badge {
+    padding: 0.5em 0.8em;
+}
+
+.btn-group .btn {
+    margin-right: 2px;
+}
+
+/* Add to your existing styles */
+.search-container {
+    max-width: 400px;
+}
+
+.search-container .input-group {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+#globalSearch {
+    border-right: none;
+    padding: 0.6rem 1rem;
+}
+
+#globalSearch:focus {
+    box-shadow: none;
+    border-color: #dee2e6;
+}
+
+.dropdown-toggle {
+    border: 1px solid #dee2e6;
+    border-left: none;
+}
+
+.dropdown-menu {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 0;
+}
+
+.dropdown-item {
+    padding: 8px 16px;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+.dropdown-header {
+    font-weight: 600;
+    color: #6c757d;
+    padding: 8px 16px;
+}
+
+/* Status colors for rows */
+.status-pending td {
+    background-color: rgba(255, 193, 7, 0.1);
+}
+
+.status-accepted td {
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+.status-rejected td {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+/* DataTable customization */
+.dataTables_length select {
+    border-radius: 6px;
+    padding: 6px 12px;
+    border-color: #dee2e6;
+}
+
+.dataTables_info {
+    color: #6c757d;
+}
+
+.dataTables_paginate .page-link {
+    border: none;
+    color: #6c757d;
+    margin: 0 2px;
+    border-radius: 6px;
+}
+
+.dataTables_paginate .page-item.active .page-link {
+    background-color: #0d6efd;
+    color: white;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Initialize DataTable
+    const table = $('#applicationsTable').DataTable({
+        dom: 'lrtip', // Remove default search box
+        pageLength: 10,
+        order: [[0, "asc"]],
+        language: {
+            lengthMenu: "Tampilkan _MENU_ data per halaman",
+            zeroRecords: "Data tidak ditemukan",
+            info: "Menampilkan halaman _PAGE_ dari _PAGES_",
+            infoEmpty: "Tidak ada data yang tersedia",
+            infoFiltered: "(difilter dari _MAX_ total data)",
+            paginate: {
+                first: "Pertama",
+                last: "Terakhir",
+                next: "Selanjutnya",
+                previous: "Sebelumnya"
+            }
+        }
+    });
+
+    // Global search functionality
+    $('#globalSearch').on('keyup', function() {
+        table.search(this.value).draw();
+    });
+
+    // Filter functionality
+    $('.dropdown-item[data-filter]').on('click', function(e) {
+        e.preventDefault();
+        const filter = $(this).data('filter');
+        
+        if (filter === 'all') {
+            table.search('').columns().search('').draw();
+        } else if (['pending', 'accepted', 'rejected'].includes(filter)) {
+            // Filter by status
+            table.column(3).search(filter).draw();
+        } else {
+            // Filter by jurusan
+            table.column(2).search(filter).draw();
+        }
+    });
+
+    // Add status class to rows
+    table.on('draw', function() {
+        table.rows().every(function() {
+            const data = this.data();
+            const status = data[3].toLowerCase().includes('pending') ? 'pending' :
+                          data[3].toLowerCase().includes('diterima') ? 'accepted' : 'rejected';
+            $(this.node()).addClass(`status-${status}`);
+        });
+    });
+});
+
+function viewPayment(paymentId) {
+    // Show loading state
+    const modal = new bootstrap.Modal(document.getElementById('paymentModal'));
+    const imgContainer = document.getElementById('paymentImageContainer');
+    imgContainer.classList.add('loading');
+    
+    // Fetch payment details
+    fetch(`/admin/payment-details/${paymentId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Update image
+                document.getElementById('paymentProofImage').src = data.image_url;
+                
+                // Update payment details
+                document.getElementById('paymentName').textContent = data.user_name;
+                document.getElementById('paymentAmount').textContent = `Rp ${data.amount.toLocaleString()}`;
+                document.getElementById('paymentDate').textContent = new Date(data.created_at).toLocaleDateString('id-ID');
+                
+                // Update status badge
+                const statusBadge = document.getElementById('paymentStatus');
+                statusBadge.textContent = data.status;
+                statusBadge.className = `badge bg-${data.status === 'verified' ? 'success' : 
+                                                    data.status === 'pending' ? 'warning' : 'danger'}`;
+                
+                // Show verification buttons only for pending payments
+                const verificationActions = document.getElementById('verificationActions');
+                verificationActions.style.display = data.status === 'pending' ? 'block' : 'none';
+                
+                // Store payment ID for verification
+                verificationActions.dataset.paymentId = paymentId;
+                
+                modal.show();
+            } else {
+                alert('Error loading payment details: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error loading payment details');
+        });
+}
+
+// Add verification function
+function verifyPayment(action) {
+    const paymentId = document.getElementById('verificationActions').dataset.paymentId;
+    
+    if (!confirm(`Are you sure you want to ${action} this payment?`)) return;
+    
+    fetch(`/admin/verify-payment/${paymentId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ action })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            location.reload(); // Reload page to update status
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error processing verification');
+    });
+}
+</script>
+{% endblock %}
+{% endblock %}
+
+@admin.route('/verify-payment/<int:payment_id>', methods=['POST'])
+@login_required
+@admin_required
+def verify_payment(payment_id):
+    try:
+        data = request.get_json()
+        payment = Payment.query.get_or_404(payment_id)
+        action = data.get('action')
+        
+        if action == 'verify':
+            payment.status = 'verified'
+            message = 'Pembayaran berhasil diverifikasi'
+        elif action == 'reject':
+            payment.status = 'rejected'
+            message = 'Pembayaran ditolak'
+        else:
+            return jsonify({'success': False, 'message': 'Invalid action'})
+        
+        db.session.commit()
+        return jsonify({
+            'success': True,
+            'message': message,
+            'status': payment.status
+        })
+        
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error in verify_payment: {str(e)}")  # Debug print
+        return jsonify({
+            'success': False,
+            'message': f'Error memproses pembayaran: {str(e)}'
+        })

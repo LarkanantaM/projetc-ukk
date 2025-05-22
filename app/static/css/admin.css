@@ -1,0 +1,70 @@
+:root {
+    --primary-bg: #f8f9fa;
+    --card-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s ease;
+}
+
+.dashboard-container {
+    background-color: var(--primary-bg);
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.stats-card {
+    background: white;
+    border-radius: 1rem;
+    border: none;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+}
+
+.stats-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.chart-card {
+    background: white;
+    border-radius: 1rem;
+    border: none;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 2rem;
+}
+
+.table-card {
+    background: white;
+    border-radius: 1rem;
+    border: none;
+    box-shadow: var(--card-shadow);
+}
+
+.status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 50rem;
+    font-weight: 500;
+}
+
+.action-buttons .btn {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}

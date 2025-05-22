@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-md-6 col-lg-5">
+                <div class="card login-card animate__animated animate__fadeInUp">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h3 class="fw-bold">Selamat Datang</h3>
+                            <p class="text-muted">Login untuk melanjutkan ke PPDB</p>
+                        </div>
+
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class="alert alert-{{ category }} alert-dismissible animate__animated animate__fadeIn">
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+
+                        <form method="POST" id="loginForm" class="needs-validation" novalidate>
+                            <div class="form-floating mb-3">
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="username" 
+                                       name="username" 
+                                       placeholder="Username"
+                                       required>
+                                <label for="username">Username</label>
+                                <div class="invalid-feedback">
+                                    Username harus diisi
+                                </div>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="password" 
+                                       class="form-control" 
+                                       id="password" 
+                                       name="password"
+                                       placeholder="Password" 
+                                       required>
+                                <label for="password">Password</label>
+                                <div class="invalid-feedback">
+                                    Password harus diisi
+                                </div>
+                                <div class="password-toggle">
+                                    <i class="bi bi-eye-slash" id="togglePassword"></i>
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2 mb-3">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-box-arrow-in-right"></i> Login
+                                </button>
+                            </div>
+
+                            <div class="text-center">
+                                <p class="mb-0">Belum punya akun? 
+                                    <a href="{{ url_for('auth.register') }}" class="text-primary fw-bold">
+                                        Daftar Sekarang
+                                    </a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<style>
+.login-container {
+    background: linear-gradient(135deg, #6eb9f7 0%, #3481d7 100%);
+    min-height: 100vh;
+}
+
+.login-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.form-floating > .form-control:focus,
+.form-floating > .form-control:not(:placeholder-shown) {
+    padding-top: 1.625rem;
+    padding-bottom: 0.625rem;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6c757d;
+}
+
+.btn-primary {
+    padding: 12px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(13,110,253,0.3);
+}
+
+.alert {
+    border-radius: 10px;
+    border: none;
+}
+
+.form-control:focus {
+    border-color: #3481d7;
+    box-shadow: 0 0 0 0.25rem rgba(52,129,215,0.25);
+}
+
+@media (max-width: 576px) {
+    .login-card {
+        margin: 15px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Form validation
+    const form = document.getElementById('loginForm');
+    
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+    });
+
+    // Password toggle
+    const togglePassword = document.getElementById('togglePassword');
+    const password = document.getElementById('password');
+    
+    togglePassword.addEventListener('click', function() {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        
+        this.classList.toggle('bi-eye');
+        this.classList.toggle('bi-eye-slash');
+    });
+
+    // Input animations
+    const inputs = document.querySelectorAll('.form-control');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentElement.classList.add('focused');
+        });
+        
+        input.addEventListener('blur', function() {
+            if (!this.value) {
+                this.parentElement.classList.remove('focused');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}

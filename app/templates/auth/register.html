@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-md-6 col-lg-5">
+                <div class="card register-card animate__animated animate__fadeInUp">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h3 class="fw-bold">Daftar Akun Baru</h3>
+                            <p class="text-muted">Buat akun untuk mendaftar PPDB</p>
+                        </div>
+
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class="alert alert-{{ category }} alert-dismissible animate__animated animate__fadeIn">
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+
+                        <form method="POST" id="registerForm" class="needs-validation" novalidate>
+                            <div class="form-floating mb-3">
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="username" 
+                                       name="username" 
+                                       placeholder="Username"
+                                       required
+                                       pattern="^[a-zA-Z0-9_]{4,20}$">
+                                <label for="username">Username</label>
+                                <div class="invalid-feedback">
+                                    Username harus 4-20 karakter (huruf, angka, underscore)
+                                </div>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="email" 
+                                       class="form-control" 
+                                       id="email" 
+                                       name="email" 
+                                       placeholder="Email"
+                                       required>
+                                <label for="email">Email</label>
+                                <div class="invalid-feedback">
+                                    Email tidak valid
+                                </div>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="password" 
+                                       class="form-control" 
+                                       id="password" 
+                                       name="password"
+                                       placeholder="Password" 
+                                       required
+                                       minlength="6">
+                                <label for="password">Password</label>
+                                <div class="password-toggle">
+                                    <i class="bi bi-eye-slash" id="togglePassword"></i>
+                                </div>
+                                <div class="invalid-feedback">
+                                    Password minimal 6 karakter
+                                </div>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="password" 
+                                       class="form-control" 
+                                       id="confirm_password" 
+                                       name="confirm_password"
+                                       placeholder="Konfirmasi Password" 
+                                       required>
+                                <label for="confirm_password">Konfirmasi Password</label>
+                                <div class="invalid-feedback">
+                                    Password tidak cocok
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2 mb-3">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-person-plus"></i> Daftar
+                                </button>
+                            </div>
+
+                            <div class="text-center">
+                                <p class="mb-0">Sudah punya akun? 
+                                    <a href="{{ url_for('auth.login') }}" class="text-primary fw-bold">
+                                        Login
+                                    </a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<style>
+.register-container {
+    background: linear-gradient(135deg, #6eb9f7 0%, #3481d7 100%);
+    min-height: 100vh;
+}
+
+.register-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.form-floating > .form-control:focus,
+.form-floating > .form-control:not(:placeholder-shown) {
+    padding-top: 1.625rem;
+    padding-bottom: 0.625rem;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6c757d;
+}
+
+.btn-primary {
+    padding: 12px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(13,110,253,0.3);
+}
+
+.password-strength {
+    height: 5px;
+    margin-top: 5px;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.strength-weak { background: #dc3545; width: 33%; }
+.strength-medium { background: #ffc107; width: 66%; }
+.strength-strong { background: #198754; width: 100%; }
+
+@media (max-width: 576px) {
+    .register-card {
+        margin: 15px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('registerForm');
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirm_password');
+    const togglePassword = document.getElementById('togglePassword');
+    
+    // Form validation
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        
+        // Check if passwords match
+        if (password.value !== confirmPassword.value) {
+            confirmPassword.setCustomValidity("Passwords don't match");
+            event.preventDefault();
+        } else {
+            confirmPassword.setCustomValidity('');
+        }
+        
+        form.classList.add('was-validated');
+    });
+
+    // Password toggle
+    togglePassword.addEventListener('click', function() {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        confirmPassword.setAttribute('type', type);
+        
+        this.classList.toggle('bi-eye');
+        this.classList.toggle('bi-eye-slash');
+    });
+
+    // Password strength meter
+    password.addEventListener('input', function() {
+        const strength = checkPasswordStrength(this.value);
+        updatePasswordStrength(strength);
+    });
+
+    // Confirm password validation
+    confirmPassword.addEventListener('input', function() {
+        if (this.value !== password.value) {
+            this.setCustomValidity("Passwords don't match");
+        } else {
+            this.setCustomValidity('');
+        }
+    });
+
+    function checkPasswordStrength(password) {
+        let strength = 0;
+        if (password.length >= 8) strength++;
+        if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+        if (password.match(/\d/)) strength++;
+        if (password.match(/[^a-zA-Z\d]/)) strength++;
+        return strength;
+    }
+
+    function updatePasswordStrength(strength) {
+        const meter = document.querySelector('.password-strength');
+        if (!meter) return;
+        
+        meter.className = 'password-strength';
+        if (strength >= 3) meter.classList.add('strength-strong');
+        else if (strength >= 2) meter.classList.add('strength-medium');
+        else if (strength >= 1) meter.classList.add('strength-weak');
+    }
+
+    // Input animations
+    const inputs = document.querySelectorAll('.form-control');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentElement.classList.add('focused');
+        });
+        
+        input.addEventListener('blur', function() {
+            if (!this.value) {
+                this.parentElement.classList.remove('focused');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}
